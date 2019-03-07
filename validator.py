@@ -2,6 +2,9 @@ import argparse
 import re
 import mail
 
+import oauth2client
+import gspread
+
 from email.message import EmailMessage
 
 
@@ -22,11 +25,9 @@ def main():
     snum = args.snum[0]
     ports = args.ports
 
-    if True:
+    if (check_port_availability(ports)):
         send_email(snum, ports)
-        print("Return from send email")
 
-    print("Out of if condition")
     exit()
 
 
@@ -52,26 +53,25 @@ def validate_args(args):
 
 
 def check_port_availability(ports):
-    pass
+    return False
 
 
 def send_email(snum, ports):
     port = 587
-    sender_email = "%s@student.rmit.edu.au" % snum
-    destination_email = "sam.dowling@hotmail.com"
+    from_addr = "%s@student.rmit.edu.au" % snum
+    to_addr = "sam.dowling@hotmail.com"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
     msg = EmailMessage()
-    msg['Subject'] = "Port Selection for COSC1179 Network Programming"
-    msg['From'] = sender_email
-    msg['To'] = destination_email
+    msg['Subject'] = "%s's Port Selection for COSC1179 Network Programming" % snum
+    msg['From'] = from_addr
+    msg['To'] = to_addr
     msg.set_content(message)
 
     mail.send(
         port=port,
-        from_addr=sender_email,
-        to_addr=destination_email,
+        from_addr=from_addr,
         smtp_server=smtp_server,
         msg=msg
         )

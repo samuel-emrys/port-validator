@@ -3,7 +3,7 @@ import smtplib
 import getpass
 
 
-def send(smtp_server, port, from_addr, to_addr, msg):
+def send(smtp_server, port, from_addr, msg):
     password = getpass.getpass("Type your account password and press enter: ")
     context = ssl.create_default_context()
 
