@@ -1,11 +1,17 @@
 import argparse
 import re
 import mail
+import itertools
 
-import oauth2client
-import gspread
-
+# import gspread
+# from oauth2client import ServiceAccountCredentials
 from email.message import EmailMessage
+
+import pickle
+import os.path
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 
 
 def main():
@@ -25,9 +31,23 @@ def main():
     snum = args.snum[0]
     ports = args.ports
 
-    if (check_port_availability(ports)):
-        send_email(snum, ports)
+    port_availability = check_port_availability(ports)
+    if (False not in port_availability):
+        selection = input('The selected ports %s and %s are available. Send email to Fengling? [Y/N]')
 
+        if (selection.lower() == 'y'):
+            send_email(snum, ports)
+    else:
+        # invalid = [x for x in port_availability if x is not True]
+        invalid = list(itertools.compress(ports, [not i for i in port_availability]))
+        invalid_str = ("%s" * len(invalid))
+
+        if (len(invalid) == 1):
+            out = "Port %s is not available" % invalid
+        else:
+            out = "Ports %s are not available." % ', '.join(str(i) for i in ports)
+
+        print(out)
     exit()
 
 
@@ -53,7 +73,69 @@ def validate_args(args):
 
 
 def check_port_availability(ports):
-    return False
+
+    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    SPREADSHEET_ID = '1jARjtBtEqd8nPOWnFIRtTB5MDmiScoLHb7VcXM0PypA'
+    RANGE_NAME = 'checking!A6:B7'
+    PORT_RANGE = 'checking!B6'
+    availability = []
+
+    creds = None
+
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server()
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('sheets', 'v4', credentials=creds)
+
+    sheet = service.spreadsheets()
+
+    for i, port in enumerate(ports):
+        # Update port value in google sheet
+        request = sheet.values().update(
+            spreadsheetId=SPREADSHEET_ID,
+            range=PORT_RANGE,
+            valueInputOption='USER_ENTERED',
+            body={"values": [[port]]}
+            )
+        response = request.execute()
+
+        # Query result of changed port
+        result = sheet.values().get(
+            spreadsheetId=SPREADSHEET_ID,
+            range=RANGE_NAME
+            ).execute()
+        values = result.get('values', [])
+
+        # Construct boolean list of port availability
+        if not values:
+            availability.append(False)
+
+        elif (int(values[0][1]) != port):
+            print("An error occurred querying the port. Please try again.")
+            exit()
+
+        elif (values[1][1] == 'Not Taken and Talk to your tutor to add'):
+            availability.append(True)
+
+        elif (values[1][1] == 'Already Taken, Change Please'):
+            availability.append(False)
+
+        else:
+            availability.append(False)
+
+    return availability
 
 
 def send_email(snum, ports):
