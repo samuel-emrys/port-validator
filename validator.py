@@ -141,7 +141,7 @@ def check_port_availability(ports):
 def send_email(snum, ports):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
-    to_addr = "sam.dowling@hotmail.com"
+    to_addr = "fengling.han@rmit.edu.au"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
