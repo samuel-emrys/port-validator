@@ -21,7 +21,7 @@ A detailed breakdown of required packages is available in `requirements.in`
 
 ## Installation
 
-1. Create a python 3.7 virtual environment. If virtualenv is not installed:
+1. Create a python 3.7 virtual environment. Note that this is optional, but you run the risk of contaminating your host environment and breaking dependencies for other programs. If virtualenv is not installed:
 
 	1. `$ pip install virtualenv`
 	2. Navigate to the project root directory and execute `virtualenv --python=/path/to/python3/dist venv`, replacing `/path/to/
