@@ -138,12 +138,11 @@ def send_email(snum, ports):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
     to_addr = "fengling.han@rmit.edu.au"
-    # to_addr = "sam.dowling@hotmail.com"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
     msg = EmailMessage()
-    msg['Subject'] = "%s's Port Selection for COSC1179 Network Programming" % snum
+    msg['Subject'] = "{%s, %s, %s}" % (snum, ports[0], ports[1])
     msg['From'] = from_addr
     msg['To'] = to_addr
     msg.set_content(message)
