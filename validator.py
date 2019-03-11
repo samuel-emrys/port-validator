@@ -30,7 +30,8 @@ def main():
 
     port_availability = check_port_availability(ports)
     if (False not in port_availability):
-        selection = input('The selected ports %s and %s are available. Send email to Fengling? [Y/N]')
+        send_msg = 'The selected ports %s and %s are available. Send email to Fengling to reserve? [Y/N]' % (ports[0], ports[1])
+        selection = input(send_msg)
 
         if (selection.lower() == 'y'):
             send_email(snum, ports)
