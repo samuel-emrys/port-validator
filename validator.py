@@ -2,16 +2,13 @@ import argparse
 import re
 import mail
 import itertools
-
-# import gspread
-# from oauth2client import ServiceAccountCredentials
-from email.message import EmailMessage
-
 import pickle
 import os.path
+
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from email.message import EmailMessage
 
 
 def main():
@@ -38,9 +35,7 @@ def main():
         if (selection.lower() == 'y'):
             send_email(snum, ports)
     else:
-        # invalid = [x for x in port_availability if x is not True]
         invalid = list(itertools.compress(ports, [not i for i in port_availability]))
-        invalid_str = ("%s" * len(invalid))
 
         if (len(invalid) == 1):
             out = "Port %s is not available" % invalid
@@ -142,6 +137,7 @@ def send_email(snum, ports):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
     to_addr = "fengling.han@rmit.edu.au"
+    # to_addr = "sam.dowling@hotmail.com"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
