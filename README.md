@@ -40,5 +40,3 @@ The `--snum` flag only takes a student number, so *must* begin with an `s`, and 
 The `--ports` flag *must* take two arguments within the range (61000, 61999)
 
 You will be prompted to login to your google account, and also enter your student password, which is required to send the email.
-
-##
