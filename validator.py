@@ -38,7 +38,7 @@ def main():
         invalid = list(itertools.compress(ports, [not i for i in port_availability]))
 
         if (len(invalid) == 1):
-            out = "Port %s is not available" % invalid
+            out = "Port %s is not available" % invalid[0]
         else:
             out = "Ports %s are not available." % ', '.join(str(i) for i in ports)
 
