@@ -27,8 +27,6 @@ import itertools
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
-# app = Flask(__name__)
-
 
 @app.route('/')
 def index():
@@ -36,7 +34,6 @@ def index():
     form = Form()
     print("index")
     return render_template("index.html", form=form)
-    # return app.send_static_file('index.html')
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -49,10 +46,13 @@ def submit():
         if (len(form.errors) == 0):
             port_availability = validator.check_port_availability(form.ports)
             if (False not in port_availability):
-                form.success = True
-                form.success_msg = 'The selected ports %s and %s are available. Email sent to Fengling.' % (form.ports[0], form.ports[1])
-
-                # mail.send_email(form.snum, form.ports)
+                try:
+                    validator.send_email(form.snum, form.ports, form.password)
+                    form.success = True
+                    form.success_msg = 'The selected ports %s and %s were available! Email sent to Fengling.' % (form.ports[0], form.ports[1])
+                except Exception as e:
+                    print(e)
+                    form.errors.append("Email Authentication Unsuccessful.")
             else:
                 invalid = list(itertools.compress(form.ports, [not i for i in port_availability]))
 

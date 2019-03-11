@@ -3,6 +3,7 @@ import re
 
 class Form:
     snum = ''
+    password = ''
     ports = []
     errors = []
     success_msg = None
@@ -15,6 +16,7 @@ class Form:
             self.ports = [form['port1'], form['port2']]
             self.success = False
             self.success_msg = None
+            self.password = form['password']
             self.validate()
 
     def validate(self):

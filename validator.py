@@ -34,7 +34,10 @@ def main():
         selection = input(send_msg)
 
         if (selection.lower() == 'y'):
-            send_email(snum, ports)
+            try:
+                send_email(snum, ports)
+            except Exception as e:
+                print(e)
     else:
         invalid = list(itertools.compress(ports, [not i for i in port_availability]))
 
@@ -134,26 +137,30 @@ def check_port_availability(ports):
     return availability
 
 
-def send_email(snum, ports):
+def send_email(snum, ports, password=None):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
-    to_addr = "fengling.han@rmit.edu.au"
-    # to_addr = "sam.dowling@hotmail.com"
+    # to_addr = "fengling.han@rmit.edu.au"
+    to_addr = "sam.dowling@hotmail.com"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
     msg = EmailMessage()
-    msg['Subject'] = "%s's Port Selection for COSC1179 Network Programming" % snum
+    msg['Subject'] = "{%s, %s, %s}" % (snum, ports[0], ports[1])
     msg['From'] = from_addr
     msg['To'] = to_addr
     msg.set_content(message)
 
-    mail.send(
-        port=port,
-        from_addr=from_addr,
-        smtp_server=smtp_server,
-        msg=msg
-        )
+    try:
+        mail.send(
+            port=port,
+            from_addr=from_addr,
+            smtp_server=smtp_server,
+            msg=msg,
+            password=password
+            )
+    except Exception as e:
+        raise Exception(e)
 
 
 if __name__ == "__main__":

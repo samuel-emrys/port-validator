@@ -29,6 +29,7 @@ body {
 }
 
 #ports input[type="text"],
+#ports input[type="password"],
 #ports input[type="email"],
 #ports input[type="tel"],
 #ports input[type="url"],
@@ -67,6 +68,7 @@ fieldset {
 }
 
 #ports input[type="text"],
+#ports input[type="password"],
 #ports input[type="email"],
 #ports input[type="tel"],
 #ports input[type="url"],
@@ -79,6 +81,7 @@ fieldset {
 }
 
 #ports input[type="text"]:hover,
+#ports input[type="password"]:hover,
 #ports input[type="email"]:hover,
 #ports input[type="tel"]:hover,
 #ports input[type="url"]:hover,
@@ -148,5 +151,5 @@ fieldset {
 }
 
 #success {
- color: #f44242 !important;
+ color: #43A047 !important;
 }
