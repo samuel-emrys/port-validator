@@ -33,42 +33,39 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """Return the submission form"""
-    return app.send_static_file('index.html')
+    form = Form()
+    print("index")
+    return render_template("index.html", form=form)
+    # return app.send_static_file('index.html')
 
 
 @app.route('/submit', methods=['GET', 'POST'])
 def submit():
-    ports = []
+    print("submit")
+    form = None
     if request.method == 'POST':
-        # snum = request.form['snum']
-        # ports.append(int(request.form['port1']))
-        # ports.append(int(request.form['port2']))
-
-        # form = Form(snum=snum, ports=ports)
         form = Form(request.form)
 
-        # Prepare response
-        response = make_response(render_template('index.html'), form=form)
+        if (len(form.errors) == 0):
+            port_availability = validator.check_port_availability(form.ports)
+            if (False not in port_availability):
+                form.success = True
+                form.success_msg = 'The selected ports %s and %s are available. Email sent to Fengling.' % (form.ports[0], form.ports[1])
 
-
-
-        port_availability = validator.check_port_availability(ports)
-        if (False not in port_availability):
-            selection = input('The selected ports %s and %s are available. Send email to Fengling? [Y/N]')
-
-            if (selection.lower() == 'y'):
-                mail.send_email(snum, ports)
-        else:
-            invalid = list(itertools.compress(ports, [not i for i in port_availability]))
-
-            if (len(invalid) == 1):
-                out = "Port %s is not available" % invalid
+                # mail.send_email(form.snum, form.ports)
             else:
-                out = "Ports %s are not available." % ', '.join(str(i) for i in ports)
+                invalid = list(itertools.compress(form.ports, [not i for i in port_availability]))
 
-            print(out)
+                if (len(invalid) == 1):
+                    out = "Port %s is not available" % invalid[0]
+                else:
+                    out = "Ports %s are not available." % ', '.join(str(i) for i in form.ports)
 
-    return redirect('/')
+                form.errors.append(out)
+
+        # Prepare response
+        response = make_response(render_template('index.html', form=form))
+        return response
 
 
 if __name__ == '__main__':

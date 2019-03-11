@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <title>Network Programming Port Validator</title>
     
-    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}"> -->
-    <link rel="stylesheet" type="text/css" href="/static/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="/static/stylesheet.css"> -->
 </head>
 
 <body id="page-container">
   <main>
     <div class="container">  
-      <form id="ports" action="/submit" method="POST">
+      <form id="ports" role="form" action="/submit" method="POST">
         <h3>Network Programming Port Validator</h3>
-        <span class="error">
+        <span id="error">
           {% if form.errors %}
             {% for error in form.errors %}
-              {{ error }}
+            <p>  {{ error }} </p>
             {% endfor %}
           {% endif %}
         </span>
-
-
+        <span id="success">
+          {% if form.success %}
+            {{ form.success_msg }}
+          {% endif %}
+        </span>
         <fieldset>
           <input placeholder="Your student number" type="text" tabindex="1" name="snum" required autofocus>
         </fieldset>
