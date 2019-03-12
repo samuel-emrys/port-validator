@@ -49,7 +49,7 @@ def submit():
                 try:
                     validator.send_email(form.snum, form.ports, form.password)
                     form.success = True
-                    form.success_msg = 'The selected ports %s and %s were available! Email sent to Fengling.' % (form.ports[0], form.ports[1])
+                    form.success_msg = 'The selected ports %s and %s were available! Email sent to fengling.han@rmit.edu.au.' % (form.ports[0], form.ports[1])
                 except Exception as e:
                     print(e)
                     form.errors.append("Email Authentication Unsuccessful.")
