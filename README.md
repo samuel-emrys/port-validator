@@ -36,11 +36,11 @@ You will be prompted to login to your google account, and also enter your studen
 
 ## Web Interface
 
-A web interface is also available for this program, and is available at:
+A web interface is also available for this program at:
 
 [https://np-port-validator2.appspot.com/](https://np-port-validator2.appspot.com/)
 
-Note that a valid submission will automatically send an email to fengling.han@rmit.edu.au
+Note that a valid submission will automatically send an email to the lecturer
 
 ## Known Issues
 
