@@ -17,9 +17,9 @@ A detailed breakdown of required packages is available in `requirements.txt`
 ## Installation
 
 1. Create a python 3.7 virtual environment. If virtualenv is not installed:
-1.1 `$ pip install virtualenv`
-1.2 Navigate to the project root directory and execute `virtualenv --python=/path/to/python3/dist venv`, replacing `/path/to/python3/dist` with the path to your distribution of python3, if it is not default. If python3 is your default python distribution, you can just execute `virtualenv venv`
-1.3 Actvate virtualenv by executing `source venv/bin/activate`
+	1. `$ pip install virtualenv`
+	2. Navigate to the project root directory and execute `virtualenv --python=/path/to/python3/dist venv`, replacing `/path/to/python3/dist` with the path to your distribution of python3, if it is not default. If python3 is your default python distribution, you can just execute `virtualenv venv`
+	3. Actvate virtualenv by executing `source venv/bin/activate`
 
 2. Run `make update` in the project root.
 
@@ -36,4 +36,14 @@ You will be prompted to login to your google account, and also enter your studen
 
 ## Web Interface
 
+A web interface is also available for this program, and is available at:
+
 [https://np-port-validator2.appspot.com/](https://np-port-validator2.appspot.com/)
+
+Note that a valid submission will automatically send an email to fengling.han@rmit.edu.au
+
+## Known Issues
+
+- OAuth 2.0 validation on the website is currently restricted to my student account. If this token expires external access will break
+- Web form does not auto-populate with previous values if an entry was unsuccessful
+- Web form does not prompt before sending an email
