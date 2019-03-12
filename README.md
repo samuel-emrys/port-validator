@@ -6,10 +6,14 @@ Tutor: Justin Perrie
 
 ## Dependencies:
 python 3.7
+virtualenv
+
 ### Operating System Support
 - macOS
 - Linux
 - BSD
+
+Note that this has not been tested on Windows and so behaviour is undefined. Additionally, it appears as though the RMIT coreteaching servers do not have python3 installed.
 
 ### Packages
 A detailed breakdown of required packages is available in `requirements.txt`
