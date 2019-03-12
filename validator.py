@@ -91,7 +91,7 @@ def check_port_availability(ports):
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.run_local_server()
+            creds = flow.run_local_server(port=8081)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -140,8 +140,7 @@ def check_port_availability(ports):
 def send_email(snum, ports, password=None):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
-    # to_addr = "fengling.han@rmit.edu.au"
-    to_addr = "sam.dowling@hotmail.com"
+    to_addr = "fengling.han@rmit.edu.au"
     smtp_server = "smtp-mail.outlook.com"
     message = "Hi Fengling,\nThe ports I'm choosing are:\n\t- Port 1: %s\n\t- Port 2: %s\nKind Regards" % (ports[0], ports[1])
 
