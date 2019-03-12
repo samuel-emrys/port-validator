@@ -34,7 +34,10 @@ def main():
         selection = input(send_msg)
 
         if (selection.lower() == 'y'):
-            send_email(snum, ports)
+            try:
+                send_email(snum, ports)
+            except Exception as e:
+                print(e)
     else:
         invalid = list(itertools.compress(ports, [not i for i in port_availability]))
 
@@ -88,7 +91,7 @@ def check_port_availability(ports):
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.run_local_server()
+            creds = flow.run_local_server(port=8081)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -134,7 +137,7 @@ def check_port_availability(ports):
     return availability
 
 
-def send_email(snum, ports):
+def send_email(snum, ports, password=None):
     port = 587
     from_addr = "%s@student.rmit.edu.au" % snum
     to_addr = "fengling.han@rmit.edu.au"
@@ -147,12 +150,16 @@ def send_email(snum, ports):
     msg['To'] = to_addr
     msg.set_content(message)
 
-    mail.send(
-        port=port,
-        from_addr=from_addr,
-        smtp_server=smtp_server,
-        msg=msg
-        )
+    try:
+        mail.send(
+            port=port,
+            from_addr=from_addr,
+            smtp_server=smtp_server,
+            msg=msg,
+            password=password
+            )
+    except Exception as e:
+        raise Exception(e)
 
 
 if __name__ == "__main__":

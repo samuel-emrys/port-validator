@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <meta charset="UTF-8">
+    <title>Network Programming Port Validator</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="/static/stylesheet.css"> -->
+</head>
+
+<body id="page-container">
+  <main>
+    <div class="container">  
+      <form id="ports" role="form" action="/submit" method="POST">
+        <h3>Network Programming Port Validator</h3>
+        <span id="error">
+          {% if form.errors %}
+            {% for error in form.errors %}
+            <p>  {{ error }} </p>
+            {% endfor %}
+          {% endif %}
+        </span>
+        <span id="success">
+          {% if form.success %}
+            {{ form.success_msg }}
+          {% endif %}
+        </span>
+        <fieldset>
+          <input placeholder="Your student number" type="text" tabindex="1" name="snum" required autofocus>
+        </fieldset>
+        <fieldset>
+          <input placeholder="Your student account password" type="password" tabindex="2" name="password" required>
+        </fieldset>
+        <fieldset>
+          <input placeholder="First port selection (61000 - 61900)" type="text" tabindex="3" name="port1" required>
+        </fieldset>
+        <fieldset>
+          <input placeholder="Second port selection (61000 - 61900)" type="text" tabindex="4" name="port2" required>
+        </fieldset>
+        <fieldset>
+          <button name="submit" type="submit" id="port-submit" data-submit="...Sending">Submit</button>
+        </fieldset>
+      </form>
+    </div>
+  </main>
+</body>

@@ -6,8 +6,8 @@ Author: Samuel Dowling, s3197340
 Tutor: Justin Perrie
 
 ## Dependencies:
-python 3.7
-virtualenv
+- python 3.7
+- virtualenv
 
 ### Operating System Support
 - macOS
@@ -17,7 +17,7 @@ virtualenv
 Note that this has not been tested on Windows and so behaviour is undefined. Additionally, it appears as though the RMIT coreteaching servers do not have python3 installed.
 
 ### Packages
-A detailed breakdown of required packages is available in `requirements.in`
+A detailed breakdown of required packages is available in `requirements.txt`
 
 ## Installation
 
@@ -25,7 +25,7 @@ A detailed breakdown of required packages is available in `requirements.in`
 
 	1. `$ pip install virtualenv`
 	2. Navigate to the project root directory and execute `virtualenv --python=/path/to/python3/dist venv`, replacing `/path/to/
-python3/dist` with the path to your distribution of python3, if it is not default. If python3 is your default python distribution, you can just execute `virtualenv venv`
+	python3/dist` with the path to your distribution of python3, if it is not default. If python3 is your default python distribution, you can just execute `virtualenv venv`
 	3. Actvate virtualenv by executing `source venv/bin/activate`
 
 2. Run `make update` in the project root.
@@ -40,3 +40,17 @@ The `--snum` flag only takes a student number, so *must* begin with an `s`, and 
 The `--ports` flag *must* take two arguments within the range (61000, 61999)
 
 You will be prompted to login to your google account, and also enter your student password, which is required to send the email.
+
+## Web Interface
+
+A web interface is also available for this program at:
+
+[https://np-port-validator2.appspot.com/](https://np-port-validator2.appspot.com/)
+
+Note that a valid submission will automatically send an email to the lecturer
+
+## Known Issues
+
+- OAuth 2.0 validation on the website is currently restricted to my student account. If this token expires external access will break
+- Web form does not auto-populate with previous values if an entry was unsuccessful
+- Web form does not prompt before sending an email
